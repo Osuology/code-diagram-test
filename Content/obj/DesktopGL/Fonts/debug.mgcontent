@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/Jeff/Documents/Visual Studio 2015/Projects/Code DiagramFlowchart Test Myl/Code DiagramFlowchart Test Myl/Content/Fonts/debug.spritefont</SourceFile>
+  <SourceTime>2019-01-05T17:40:04.0381245-08:00</SourceTime>
+  <DestFile>C:/Users/Jeff/Documents/Visual Studio 2015/Projects/Code DiagramFlowchart Test Myl/Code DiagramFlowchart Test Myl/Content/bin/DesktopGL/Fonts/debug.xnb</DestFile>
+  <DestTime>2019-03-18T20:30:14.4846127-07:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2017-03-01T07:05:36-08:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2017-03-01T07:05:36-08:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
