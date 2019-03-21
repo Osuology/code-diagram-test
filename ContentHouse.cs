@@ -26,11 +26,11 @@ namespace Code_DiagramFlowchart_Test_Myl
         }
 
         //Load methods to load a content file into its respective dictionary
-        public void LoadTexture(string path)
+        public void LoadTexture(string path, string name)
         {
             var content = Myl.Game.Content.Load<Texture2D>(path);
 
-            textures.Add(path, content);
+            textures.Add(name, content);
         }
 
         public void LoadSound(string path)

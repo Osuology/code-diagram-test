@@ -20,7 +20,7 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
         public override void Load()
         {
             ch = new ContentHouse();
-            ch.LoadTexture("test");
+            ch.LoadTexture("test", "test");
 
             actor.LoadTexture(ch.Get("test"));
         }

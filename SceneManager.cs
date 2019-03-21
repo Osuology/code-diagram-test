@@ -12,10 +12,13 @@ namespace Code_DiagramFlowchart_Test_Myl
 {
     class SceneManager
     {
+        //Scene that is being updated and drawn
         Scene currentScene;
 
+        //Dictionary to return a scene based on its given name
         Dictionary<string, Scene> scenes;
 
+        //Constructor to initialize all the scenes
         public SceneManager()
         {
             Overworld overworld_scene = new Overworld();
@@ -25,7 +28,8 @@ namespace Code_DiagramFlowchart_Test_Myl
             scenes.Add("overworld", overworld_scene);
             scenes.Add("main_menu", mainmenu_scene);
 
-            scenes.TryGetValue("overworld", out currentScene);
+            if (!scenes.TryGetValue("overworld", out currentScene))
+                throw new Exception("Default scene does not exist.");
         }
 
         public void Load()
@@ -33,6 +37,7 @@ namespace Code_DiagramFlowchart_Test_Myl
             currentScene.Load();
         }
 
+        //Switches the scene with the option to unload all the textures from the previous scene
         public void SwitchScene(string sceneName, bool unloadPrevious)
         {
             Scene switchScene;

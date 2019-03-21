@@ -12,17 +12,34 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
     {
         Actor actor;
 
+        List<Tile> tiles;
+
         public Overworld()
         {
-            actor = new Player(1920-128, 0);
+            actor = new Player(1920-128, 56);
+
+            tiles = new List<Tile>();
+            for (int x = 0; x < 15; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    tiles.Add(new Tile(128 * x, (128 * y)+56, 1));
+                }
+            }
         }
 
         public override void Load()
         {
             ch = new ContentHouse();
-            ch.LoadTexture("test");
+            ch.LoadTexture("test", "test");
+            ch.LoadTexture("grass", "tile_1");
 
             actor.LoadTexture(ch.Get("test"));
+
+            foreach (Tile tile in tiles)
+            {
+                tile.LoadTexture(ch);
+            }
         }
 
         public override void Unload()
@@ -39,7 +56,13 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 
         public override void Draw(SpriteBatch sb)
         {
+            foreach (Tile tile in tiles)
+            {
+                tile.Draw(sb);
+            }
+
             actor.Draw(sb);
+
             base.Draw(sb);
         }
     }

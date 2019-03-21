@@ -39,6 +39,8 @@ namespace Code_DiagramFlowchart_Test_Myl
 
             if (velocity.X > speedCap)
                 velocity.X = speedCap;
+            else if (velocity.X < -speedCap)
+                velocity.X = -speedCap;
             if (velocity.Y > speedCap)
                 velocity.Y = speedCap;
 
