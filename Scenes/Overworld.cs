@@ -25,16 +25,16 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             tiles = new List<Tile>();
 
             tilemap = new Tilemap("tilemap_1.txt", 0, 0);
+        }
 
+        public override void Load()
+        {
             using (StreamReader sr = File.OpenText("tilemap_1.txt"))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 tilemap = (Tilemap)serializer.Deserialize(sr, typeof(Tilemap));
             }
-        }
 
-        public override void Load()
-        {
             ch = new ContentHouse();
             ch.LoadTexture("test", "test");
             ch.LoadTexture("grass", "tile_1");

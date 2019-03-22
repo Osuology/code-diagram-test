@@ -27,6 +27,8 @@ namespace Code_DiagramFlowchart_Test_Myl
             graphics.SynchronizeWithVerticalRetrace = vSettings.vSync;
             TargetElapsedTime = vSettings.frameRate;
 
+            this.IsMouseVisible = true;
+
             Content.RootDirectory = "Content";
         }
 
@@ -80,6 +82,7 @@ namespace Code_DiagramFlowchart_Test_Myl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Myl.Input.scale = new Vector2(vSettings.windowSize.X / vSettings.resolution.X, vSettings.windowSize.Y / vSettings.resolution.Y);
             Myl.Input.Update();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Myl.Input.KeyReleased(Keys.Escape))
                 Exit();

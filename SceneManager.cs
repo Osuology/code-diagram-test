@@ -27,6 +27,10 @@ namespace Code_DiagramFlowchart_Test_Myl
             scenes = new Dictionary<string, Scene>();
             scenes.Add("overworld", overworld_scene);
             scenes.Add("main_menu", mainmenu_scene);
+#if DEBUG
+            Tilemap_Editor_Scene tilemap_editor = new Tilemap_Editor_Scene();
+            scenes.Add("tilemap_editor", tilemap_editor);
+#endif
 
             if (!scenes.TryGetValue("overworld", out currentScene))
                 throw new Exception("Default scene does not exist.");
@@ -41,13 +45,15 @@ namespace Code_DiagramFlowchart_Test_Myl
         public void SwitchScene(string sceneName, bool unloadPrevious)
         {
             Scene switchScene;
-            scenes.TryGetValue(sceneName, out switchScene);
-            if (switchScene != currentScene)
+            if (scenes.TryGetValue(sceneName, out switchScene))
             {
-                if (unloadPrevious)
-                    currentScene.Unload();
-                currentScene = switchScene;
-                currentScene.Load();
+                if (switchScene != currentScene)
+                {
+                    if (unloadPrevious)
+                        currentScene.Unload();
+                    currentScene = switchScene;
+                    currentScene.Load();
+                }
             }
         }
 
@@ -57,6 +63,8 @@ namespace Code_DiagramFlowchart_Test_Myl
                 SwitchScene("main_menu", true);
             else if (Myl.Input.KeyReleased(Keys.D2) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
                 SwitchScene("overworld", true);
+            else if (Myl.Input.KeyReleased(Keys.D3) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+                SwitchScene("tilemap_editor", true);
 
             currentScene.Update(gt);
         }
