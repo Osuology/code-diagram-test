@@ -5,26 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Code_DiagramFlowchart_Test_Myl.Scenes
 {
     class Overworld : Scene
     {
-        Actor actor;
+        Player player;
 
         List<Tile> tiles;
+        Tilemap tilemap;
 
         public Overworld()
         {
-            actor = new Player(1920-128, 56);
+            player = new Player(1920-128, 56);
 
+            Random rand = new Random();
             tiles = new List<Tile>();
-            for (int x = 0; x < 15; x++)
+
+            tilemap = new Tilemap("tilemap_1.txt", 0, 0);
+
+            using (StreamReader sr = File.OpenText("tilemap_1.txt"))
             {
-                for (int y = 0; y < 8; y++)
-                {
-                    tiles.Add(new Tile(128 * x, (128 * y)+56, 1));
-                }
+                JsonSerializer serializer = new JsonSerializer();
+                tilemap = (Tilemap)serializer.Deserialize(sr, typeof(Tilemap));
             }
         }
 
@@ -33,37 +38,35 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             ch = new ContentHouse();
             ch.LoadTexture("test", "test");
             ch.LoadTexture("grass", "tile_1");
+            ch.LoadTexture("sand", "tile_2");
 
-            actor.LoadTexture(ch.Get("test"));
+            player.LoadTexture(ch.Get("test"));
 
-            foreach (Tile tile in tiles)
-            {
-                tile.LoadTexture(ch);
-            }
+            tilemap.Load(ch);
         }
 
         public override void Unload()
         {
-            actor.LoadTexture(null);
+            player.LoadTexture(null);
             base.Unload();
+            tilemap = null;
         }
 
         public override void Update(GameTime gt)
         {
-            actor.Update(gt);
+            player.Update(gt);
+            tilemap.Update(gt);
             base.Update(gt);
         }
 
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, GameVideoSettings vSettings)
         {
-            foreach (Tile tile in tiles)
-            {
-                tile.Draw(sb);
-            }
+            sb.Begin(SpriteSortMode.Deferred, null, vSettings.samplerState, null, null, null, player.cam.GetMatrix());
+            tilemap.Draw(sb);
 
-            actor.Draw(sb);
+            player.Draw(sb);
 
-            base.Draw(sb);
+            base.Draw(sb, vSettings);
         }
     }
 }

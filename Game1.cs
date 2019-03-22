@@ -103,9 +103,8 @@ namespace Code_DiagramFlowchart_Test_Myl
             GraphicsDevice.SetRenderTarget(rt);
             GraphicsDevice.Clear(vSettings.backColor);
 
-            sb.Begin(SpriteSortMode.Deferred, null, vSettings.samplerState, null, null, null, null);
             // TODO: Add your drawing code here
-            sm.Draw(sb);
+            sm.Draw(sb, vSettings);
 
 
 #if DEBUG

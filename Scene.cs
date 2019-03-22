@@ -34,7 +34,7 @@ namespace Code_DiagramFlowchart_Test_Myl
 
         }
 
-        public virtual void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb, GameVideoSettings vSettings)
         {
 
         }

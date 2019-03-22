@@ -61,9 +61,9 @@ namespace Code_DiagramFlowchart_Test_Myl
             currentScene.Update(gt);
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, GameVideoSettings vSettings)
         {
-            currentScene.Draw(sb);
+            currentScene.Draw(sb, vSettings);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 {
     class MainMenu : Scene
     {
-        Actor actor;
+        Player actor;
 
         public MainMenu()
         {
@@ -37,10 +37,11 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             base.Update(gt);
         }
 
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb, GameVideoSettings vSettings)
         {
+            sb.Begin(SpriteSortMode.Deferred, null, vSettings.samplerState, null, null, null, actor.cam.GetMatrix());
             actor.Draw(sb);
-            base.Draw(sb);
+            base.Draw(sb, vSettings);
         }
     }
 }

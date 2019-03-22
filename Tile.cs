@@ -10,11 +10,11 @@ namespace Code_DiagramFlowchart_Test_Myl
 {
     class Tile
     {
-        uint ID = 0;
+        public uint ID = 0;
 
         TextureComponent texture;
 
-        Vector2 position;
+        public Vector2 position;
         Vector2 targetPosition;
 
         public Tile(int x, int y, uint id)
@@ -31,15 +31,20 @@ namespace Code_DiagramFlowchart_Test_Myl
                 case 0:
                     texture.Load(null);
                     break;
-                case 1:
-                    texture.Load(ch.Get("tile_1"));
+                default:
+                    texture.Load(ch.Get("tile_" + ID));
                     break;
             }
         }
 
+        public void Update(GameTime gt)
+        {
+
+        }
+
         public void Draw(SpriteBatch sb)
         {
-            texture.Draw(sb, position, 8f, Color.White);
+            texture.Draw(sb, position, 7.5f, Color.White);
         }
     }
 }

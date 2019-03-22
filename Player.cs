@@ -23,10 +23,13 @@ namespace Code_DiagramFlowchart_Test_Myl
         //Texture/Animation components
         Animation idle;
 
+        public Camera cam;
+
         //Constructor
         public Player(int x, int y) : base(x, y)
         {
-            textureScale = 0.125f;
+            textureScale = 7.5f;
+            cam = new Camera(x, y);
         }
 
         //Base method to load texture component
@@ -55,7 +58,22 @@ namespace Code_DiagramFlowchart_Test_Myl
                 velocity.X = 0;
             }
 
+            if (Myl.Input.KeyDown(Binds.w))
+            {
+                acceleration.Y = -0.4f;
+            }
+            else if (Myl.Input.KeyDown(Binds.s))
+            {
+                acceleration.Y = 0.4f;
+            }
+            else
+            {
+                acceleration.Y = 0;
+                velocity.Y = 0;
+            }
+
             base.Update(gt);
+            cam.Update(gt, this.position);
         }
 
         //Draw texture and animations
