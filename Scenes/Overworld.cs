@@ -24,12 +24,12 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             Random rand = new Random();
             tiles = new List<Tile>();
 
-            tilemap = new Tilemap("tilemap_1.txt", 0, 0);
+            tilemap = new Tilemap("Tilemaps/tilemap_1.txt", 0, 0);
         }
 
         public override void Load()
         {
-            using (StreamReader sr = File.OpenText("tilemap_1.txt"))
+            using (StreamReader sr = File.OpenText("Tilemaps/tilemap_0_0.txt"))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 tilemap = (Tilemap)serializer.Deserialize(sr, typeof(Tilemap));
@@ -39,6 +39,7 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             ch.LoadTexture("test", "test");
             ch.LoadTexture("grass", "tile_1");
             ch.LoadTexture("sand", "tile_2");
+            ch.LoadTexture("Textures/green_cobble", "tile_3");
 
             player.LoadTexture(ch.Get("test"));
 

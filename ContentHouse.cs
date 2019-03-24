@@ -16,6 +16,7 @@ namespace Code_DiagramFlowchart_Test_Myl
         Dictionary<string, Texture2D> textures;
         Dictionary<string, SoundEffect> sounds;
         Dictionary<string, Song> songs;
+        Dictionary<string, SpriteFont> fonts;
 
         //Constructor, initializes the dictionaries 
         public ContentHouse()
@@ -23,6 +24,7 @@ namespace Code_DiagramFlowchart_Test_Myl
             textures = new Dictionary<string, Texture2D>();
             sounds = new Dictionary<string, SoundEffect>();
             songs = new Dictionary<string, Song>();
+            fonts = new Dictionary<string, SpriteFont>();
         }
 
         //Load methods to load a content file into its respective dictionary
@@ -45,6 +47,13 @@ namespace Code_DiagramFlowchart_Test_Myl
             var content = Myl.Game.Content.Load<Song>(path);
 
             songs.Add(path, content);
+        }
+
+        public void LoadFont(string path)
+        {
+            var content = Myl.Game.Content.Load<SpriteFont>(path);
+
+            fonts.Add(path, content);
         }
 
         //Get methods to return a content file, fetched by a given key, of its respective type
@@ -71,6 +80,15 @@ namespace Code_DiagramFlowchart_Test_Myl
             Song song;
             if (songs.TryGetValue(key, out song))
                 return song;
+            else
+                return null;
+        }
+
+        public SpriteFont GetFont(string key)
+        {
+            SpriteFont font;
+            if (fonts.TryGetValue(key, out font))
+                return font;
             else
                 return null;
         }

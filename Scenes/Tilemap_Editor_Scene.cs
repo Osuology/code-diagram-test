@@ -17,7 +17,8 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
         uint currentTileID;
 
         Tilemap tilemap;
-        string savePath = "Tilemaps/tilemap_1.txt";
+        string savePath = "Tilemaps/";
+        bool saveActive = false;
         public Tilemap_Editor_Scene()
         {
         }
@@ -31,6 +32,8 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             ch.LoadTexture("sand", "tile_2");
             ch.LoadTexture("Textures/green_cobble", "tile_3");
 
+            ch.LoadFont("Fonts/tile_editor");
+
             tilemap = new Tilemap(savePath, 0, 0);
 
             base.Load();
@@ -38,54 +41,98 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 
         public override void Update(GameTime gt)
         {
-            var MousePos = Myl.Input.GetMousePos();
-            var X = Math.Floor(MousePos.X / 120);
-            var Y = Math.Floor(MousePos.Y / 120);
-            tilePos = new Vector2((float)X*120, (float)Y*120);
-            if (tilePos.X < 0)
-                tilePos.X = 0;
-            else if (tilePos.X > 1920 - 120)
-                tilePos.X = 1920 - 120;
-
-            if (tilePos.Y < 0)
-                tilePos.Y = 0;
-            else if (tilePos.Y > 1080 - 120)
-                tilePos.Y = 1080 - 120;
-
-            currentTileID = (uint)(Myl.Input.mouse.ScrollWheelValue / 120) + 1;
-
-            if (Myl.Input.mouse.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (!saveActive)
             {
-                Tile tile = new Tile((int)tilePos.X, (int)tilePos.Y, currentTileID);
-                tile.LoadTexture(ch);
-                if (tilemap.tiles.Count > 0)
+                var MousePos = Myl.Input.GetMousePos();
+                var X = Math.Floor(MousePos.X / 120);
+                var Y = Math.Floor(MousePos.Y / 120);
+                tilePos = new Vector2((float)X * 120, (float)Y * 120);
+                if (tilePos.X < 0)
+                    tilePos.X = 0;
+                else if (tilePos.X > 1920 - 120)
+                    tilePos.X = 1920 - 120;
+
+                if (tilePos.Y < 0)
+                    tilePos.Y = 0;
+                else if (tilePos.Y > 1080 - 120)
+                    tilePos.Y = 1080 - 120;
+
+                currentTileID = (uint)(Myl.Input.mouse.ScrollWheelValue / 120) + 1;
+
+                if (Myl.Input.mouse.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && !Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
                 {
-                    bool canDo = true;
-                    foreach (Tile tile2 in tilemap.tiles)
+                    Tile tile = new Tile((int)tilePos.X, (int)tilePos.Y, currentTileID);
+                    tile.LoadTexture(ch);
+                    if (tilemap.tiles.Count > 0)
                     {
-                        if (tile.ID == tile2.ID && tile.position == tile2.position)
-                            canDo = false;
-                        else
-                            canDo = true;
+                        bool canDo = true;
+                        for (int i = 0; i < tilemap.tiles.Count; i++)
+                        {
+                            Tile tile2 = tilemap.tiles[i];
+                            if (tile.ID == tile2.ID && tile.position == tile2.position)
+                                canDo = false;
+                            else
+                                canDo = true;
+                        }
+                        if (canDo)
+                            tilemap.tiles.Add(tile);
                     }
-                    if (canDo)
+                    else
+                    {
                         tilemap.tiles.Add(tile);
+                    }
                 }
-                else
+                else if (Myl.Input.mouse.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
                 {
-                    tilemap.tiles.Add(tile);
+
+                }
+
+                if (Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
+                {
+                    saveActive = true;
+                    savePath = "Tilemaps/";
+                    //var json = JsonConvert.SerializeObject(tilemap);
+
+                    //using (StreamWriter sw = new StreamWriter(savePath))
+                    //{
+                    //    sw.WriteLine(json);
+                    //}
+                }
+
+                if (Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Z))
+                {
+                    tilemap.tiles.RemoveAt(tilemap.tiles.Count - 1);
+                }
+
+                if (Myl.Input.KeyReleased(Microsoft.Xna.Framework.Input.Keys.Delete) && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+                {
+                    tilemap.tiles = new List<Tile>();
                 }
             }
-
-            if (Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyReleased(Microsoft.Xna.Framework.Input.Keys.S))
+            else
             {
-                var json = JsonConvert.SerializeObject(tilemap);
+                savePath += Myl.Input.PressedKey();
 
-                using (StreamWriter sw = new StreamWriter(savePath))
+                if (Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Delete))
+                    savePath = savePath.Remove(savePath.Length - 1);
+
+                if (Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
                 {
-                    sw.WriteLine(json);
+                    savePath += ".txt";
+                    Save();
                 }
             }
+        }
+
+        public void Save()
+        {
+            var json = JsonConvert.SerializeObject(tilemap);
+
+            using (StreamWriter sw = new StreamWriter(savePath))
+            {
+                sw.WriteLine(json);
+            }
+            saveActive = false;
         }
 
         public override void Draw(SpriteBatch sb, GameVideoSettings vSettings)
@@ -94,6 +141,10 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             tilemap.Draw(sb);
             sb.Draw(ch.Get("tile_" + currentTileID), new Rectangle((int)tilePos.X, (int)tilePos.Y, (int)(7.5 * 16), (int)(7.5 * 16)), Color.White);
             sb.Draw(ch.Get("tile_select"), new Rectangle((int)tilePos.X, (int)tilePos.Y, (int)(7.5 * 16), (int)(7.5 * 16)), new Color(255, 255, 255, 100));
+
+            if (saveActive)
+                sb.DrawString(ch.GetFont("Fonts/tile_editor"), savePath + ".txt", new Vector2(0, 0), Color.White);
+
             base.Draw(sb, vSettings);
         }
     }

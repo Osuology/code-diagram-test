@@ -27,3 +27,4 @@ C:\Users\Jeff\Documents\Visual Studio 2015\Projects\Code DiagramFlowchart Test M
 C:\Users\Jeff\Documents\Visual Studio 2015\Projects\Code DiagramFlowchart Test Myl\Code DiagramFlowchart Test Myl\bin\DesktopGL\AnyCPU\Debug\Newtonsoft.Json.xml
 C:\Users\Jeff\Documents\Visual Studio 2015\Projects\Code DiagramFlowchart Test Myl\Code DiagramFlowchart Test Myl\bin\DesktopGL\AnyCPU\Debug\Content\Textures\tile_select.xnb
 C:\Users\Jeff\Documents\Visual Studio 2015\Projects\Code DiagramFlowchart Test Myl\Code DiagramFlowchart Test Myl\bin\DesktopGL\AnyCPU\Debug\Content\Textures\green_cobble.xnb
+C:\Users\Jeff\Documents\Visual Studio 2015\Projects\Code DiagramFlowchart Test Myl\Code DiagramFlowchart Test Myl\bin\DesktopGL\AnyCPU\Debug\Content\Fonts\tile_editor.xnb

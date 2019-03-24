@@ -59,11 +59,11 @@ namespace Code_DiagramFlowchart_Test_Myl
 
         public void Update(GameTime gt)
         {
-            if (Myl.Input.KeyReleased(Keys.D1) || GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
+            if (Myl.Input.KeyReleased(Keys.F1) || GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
                 SwitchScene("main_menu", true);
-            else if (Myl.Input.KeyReleased(Keys.D2) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+            else if (Myl.Input.KeyReleased(Keys.F2) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
                 SwitchScene("overworld", true);
-            else if (Myl.Input.KeyReleased(Keys.D3) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+            else if (Myl.Input.KeyReleased(Keys.F3) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
                 SwitchScene("tilemap_editor", true);
 
             currentScene.Update(gt);
