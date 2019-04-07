@@ -14,7 +14,7 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 
         public MainMenu()
         {
-            actor = new Player(0, 0);
+            actor = new Player(0, 0, 120, 120);
         }
 
         public override void Load()

@@ -27,13 +27,17 @@ namespace Code_DiagramFlowchart_Test_Myl
             scenes = new Dictionary<string, Scene>();
             scenes.Add("overworld", overworld_scene);
             scenes.Add("main_menu", mainmenu_scene);
-#if DEBUG
-            Tilemap_Editor_Scene tilemap_editor = new Tilemap_Editor_Scene();
-            scenes.Add("tilemap_editor", tilemap_editor);
-#endif
 
             if (!scenes.TryGetValue("overworld", out currentScene))
                 throw new Exception("Default scene does not exist.");
+
+#if DEBUG
+            Tilemap_Editor_Scene tilemap_editor = new Tilemap_Editor_Scene();
+            scenes.Add("tilemap_editor", tilemap_editor);
+
+            if (!scenes.TryGetValue("tilemap_editor", out currentScene))
+                throw new Exception("Default scene does not exist.");
+#endif
         }
 
         public void Load()

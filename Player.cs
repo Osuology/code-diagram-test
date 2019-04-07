@@ -26,7 +26,7 @@ namespace Code_DiagramFlowchart_Test_Myl
         public Camera cam;
 
         //Constructor
-        public Player(int x, int y) : base(x, y)
+        public Player(int x, int y, int width, int height) : base(x, y, width, height)
         {
             textureScale = 7.5f;
             cam = new Camera(x, y);

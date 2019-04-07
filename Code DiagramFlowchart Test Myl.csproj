@@ -79,6 +79,7 @@
     <Compile Include="TextureComponent.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tilemap.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

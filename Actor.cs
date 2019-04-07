@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Myl.Hitboxes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,15 @@ namespace Code_DiagramFlowchart_Test_Myl
         protected Vector2 velocity;
         protected Vector2 acceleration;
 
+        public RectangleHitbox hitbox;
+
         protected IDrawableComponent texture;
         protected float textureScale = 1;
 
-        public Actor(int x, int y)
+        public Actor(int x, int y, int width, int height)
         {
             position = new Vector2(x, y);
+            hitbox = new RectangleHitbox(x, y, width, height);
         }
 
         public virtual void LoadTexture(Texture2D texture)
@@ -47,6 +51,7 @@ namespace Code_DiagramFlowchart_Test_Myl
                 velocity.Y = -speedCap;
 
             position += velocity;
+            hitbox.SetPosition(position);
         }
 
         public virtual void Draw(SpriteBatch sb)

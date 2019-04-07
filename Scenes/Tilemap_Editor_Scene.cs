@@ -28,13 +28,20 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
             currentTileID = 1;
             ch = new ContentHouse();
             ch.LoadTexture("Textures/tile_select", "tile_select");
+            ch.LoadTexture("Textures/black", "tile_0");
             ch.LoadTexture("grass", "tile_1");
             ch.LoadTexture("sand", "tile_2");
             ch.LoadTexture("Textures/green_cobble", "tile_3");
+            ch.LoadTexture("Textures/stone", "tile_4");
+            ch.LoadTexture("Textures/bush", "tile_5");
+            ch.LoadTexture("Textures/water", "tile_6");
+            ch.LoadTexture("Textures/orange_cobble", "tile_7");
+            ch.LoadTexture("Textures/bones_1", "tile_8");
+            ch.LoadTexture("Textures/skull_1", "tile_9");
 
             ch.LoadFont("Fonts/tile_editor");
 
-            tilemap = new Tilemap(savePath, 0, 0);
+            tilemap = new Tilemap(0, 0);
 
             base.Load();
         }
@@ -56,30 +63,35 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
                     tilePos.Y = 0;
                 else if (tilePos.Y > 1080 - 120)
                     tilePos.Y = 1080 - 120;
-
+                
                 currentTileID = (uint)(Myl.Input.mouse.ScrollWheelValue / 120) + 1;
 
                 if (Myl.Input.mouse.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && !Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
                 {
                     Tile tile = new Tile((int)tilePos.X, (int)tilePos.Y, currentTileID);
                     tile.LoadTexture(ch);
-                    if (tilemap.tiles.Count > 0)
+                    if (tilemap.layers[tilemap.currentLayer].Count > 0)
                     {
                         bool canDo = true;
-                        for (int i = 0; i < tilemap.tiles.Count; i++)
+                        for (int i = 0; i < tilemap.layers[tilemap.currentLayer].Count; i++)
                         {
-                            Tile tile2 = tilemap.tiles[i];
+                            Tile tile2 = tilemap.layers[tilemap.currentLayer][i];
                             if (tile.ID == tile2.ID && tile.position == tile2.position)
                                 canDo = false;
+                            else if (tile.ID != tile2.ID && tile.position == tile2.position)
+                            {
+                                canDo = false;
+                                tilemap.layers[tilemap.currentLayer][i] = tile;
+                            }
                             else
                                 canDo = true;
                         }
                         if (canDo)
-                            tilemap.tiles.Add(tile);
+                            tilemap.layers[tilemap.currentLayer].Add(tile);
                     }
                     else
                     {
-                        tilemap.tiles.Add(tile);
+                        tilemap.layers[tilemap.currentLayer].Add(tile);
                     }
                 }
                 else if (Myl.Input.mouse.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl))
@@ -101,12 +113,21 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 
                 if (Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Z))
                 {
-                    tilemap.tiles.RemoveAt(tilemap.tiles.Count - 1);
+                    tilemap.layers[tilemap.currentLayer].RemoveAt(tilemap.layers[tilemap.currentLayer].Count - 1);
                 }
 
                 if (Myl.Input.KeyReleased(Microsoft.Xna.Framework.Input.Keys.Delete) && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftControl) && Myl.Input.KeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
                 {
-                    tilemap.tiles = new List<Tile>();
+                    tilemap.layers[tilemap.currentLayer] = new List<Tile>();
+                }
+
+                if (Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemPlus))
+                {
+                    tilemap.LayerUp();
+                }
+                else if (Myl.Input.KeyPressed(Microsoft.Xna.Framework.Input.Keys.OemMinus))
+                {
+                    tilemap.LayerDown();
                 }
             }
             else
@@ -126,7 +147,7 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
 
         public void Save()
         {
-            var json = JsonConvert.SerializeObject(tilemap);
+            var json = JsonConvert.SerializeObject(tilemap.layers);
 
             using (StreamWriter sw = new StreamWriter(savePath))
             {

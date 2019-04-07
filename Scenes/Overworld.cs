@@ -14,57 +14,59 @@ namespace Code_DiagramFlowchart_Test_Myl.Scenes
     {
         Player player;
 
-        List<Tile> tiles;
-        Tilemap tilemap;
+        World world;
 
         public Overworld()
         {
-            player = new Player(1920-128, 56);
+            player = new Player((1920/2)-60, (1080/2)-60, 120, 120);
 
             Random rand = new Random();
-            tiles = new List<Tile>();
-
-            tilemap = new Tilemap("Tilemaps/tilemap_1.txt", 0, 0);
+            
+            world = new World(0, 0);
         }
 
         public override void Load()
         {
-            using (StreamReader sr = File.OpenText("Tilemaps/tilemap_0_0.txt"))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                tilemap = (Tilemap)serializer.Deserialize(sr, typeof(Tilemap));
-            }
+            player = new Player((1920 / 2) - 60, (1080 / 2) - 60, 120, 120);
+
+            Random rand = new Random();
 
             ch = new ContentHouse();
             ch.LoadTexture("test", "test");
+            ch.LoadTexture("Textures/black", "tile_0");
             ch.LoadTexture("grass", "tile_1");
             ch.LoadTexture("sand", "tile_2");
             ch.LoadTexture("Textures/green_cobble", "tile_3");
+            ch.LoadTexture("Textures/stone", "tile_4");
+            ch.LoadTexture("Textures/bush", "tile_5");
+            ch.LoadTexture("Textures/water", "tile_6");
+            ch.LoadTexture("Textures/orange_cobble", "tile_7");
+            ch.LoadTexture("Textures/bones_1", "tile_8");
+            ch.LoadTexture("Textures/skull_1", "tile_9");
 
             player.LoadTexture(ch.Get("test"));
 
-            tilemap.Load(ch);
+            world.Load("tilemap", ch);
         }
 
         public override void Unload()
         {
             player.LoadTexture(null);
             base.Unload();
-            tilemap = null;
         }
 
         public override void Update(GameTime gt)
         {
+            world.Update(gt, ref player);
             player.Update(gt);
-            tilemap.Update(gt);
             base.Update(gt);
         }
 
         public override void Draw(SpriteBatch sb, GameVideoSettings vSettings)
         {
             sb.Begin(SpriteSortMode.Deferred, null, vSettings.samplerState, null, null, null, player.cam.GetMatrix());
-            tilemap.Draw(sb);
 
+            world.Draw(sb);
             player.Draw(sb);
 
             base.Draw(sb, vSettings);
